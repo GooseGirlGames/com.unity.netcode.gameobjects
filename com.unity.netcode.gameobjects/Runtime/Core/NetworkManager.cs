@@ -356,6 +356,11 @@ namespace Unity.Netcode
         public event Action OnServerStarted = null;
 
         /// <summary>
+        /// The callback to invoke once the NetworkManager is initiazlied, i.e. things like SceneManager are available.
+        /// </summary>
+        public event Action OnInitialized = null;
+
+        /// <summary>
         /// Delegate type called when connection has been approved. This only has to be set on the server.
         /// </summary>
         /// <param name="createPlayerObject">If true, a player object will be created. Otherwise the client will have no object.</param>
@@ -776,6 +781,8 @@ namespace Unity.Netcode
             NetworkConfig.NetworkTransport.OnTransportEvent += HandleRawTransportPoll;
 
             NetworkConfig.NetworkTransport.Initialize(this);
+
+            OnInitialized?.Invoke();
         }
 
         /// <summary>
