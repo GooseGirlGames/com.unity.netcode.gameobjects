@@ -389,6 +389,11 @@ namespace Unity.Netcode
         public event Action OnServerStarted = null;
 
         /// <summary>
+        /// The callback to invoke once the NetworkManager is initiazlied, i.e. things like SceneManager are available.
+        /// </summary>
+        public event Action OnInitialized = null;
+
+        /// <summary>
         /// The callback to invoke if the <see cref="NetworkTransport"/> fails.
         /// </summary>
         /// <remarks>
@@ -988,6 +993,8 @@ namespace Unity.Netcode
             NetworkConfig.NetworkTransport.OnTransportEvent += HandleRawTransportPoll;
 
             NetworkConfig.NetworkTransport.Initialize(this);
+
+            OnInitialized?.Invoke();
         }
 
         private void ClearClients()
