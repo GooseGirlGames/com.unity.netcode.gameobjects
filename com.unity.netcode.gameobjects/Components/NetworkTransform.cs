@@ -544,9 +544,14 @@ namespace Unity.Netcode.Components
         {
             var serverTime = NetworkManager.ServerTime.Time;
             var position = InLocalSpace ? transform.localPosition : transform.position;
-            m_PositionXInterpolator.ResetTo(position.x, serverTime);
-            m_PositionYInterpolator.ResetTo(position.y, serverTime);
-            m_PositionZInterpolator.ResetTo(position.z, serverTime);
+            try {
+                m_PositionXInterpolator.ResetTo(position.x, serverTime);
+                m_PositionYInterpolator.ResetTo(position.y, serverTime);
+                m_PositionZInterpolator.ResetTo(position.z, serverTime);
+            } catch(Exception e) {
+                Debug.LogError(gameObject.name + " will crash :(");
+                throw e;
+            }
 
             var rotation = InLocalSpace ? transform.localRotation : transform.rotation;
             m_RotationInterpolator.ResetTo(rotation, serverTime);
