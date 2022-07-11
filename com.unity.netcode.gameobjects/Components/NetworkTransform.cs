@@ -467,7 +467,12 @@ namespace Unity.Netcode.Components
         private void ResetInterpolatedStateToCurrentAuthoritativeState()
         {
             var serverTime = NetworkManager.ServerTime.Time;
+            try {
             m_PositionXInterpolator.ResetTo(m_LocalAuthoritativeNetworkState.PositionX, serverTime);
+            } catch(Exception e) {
+                Debug.LogError(gameObject.name + " will crash :(");
+                throw e;
+            }
             m_PositionYInterpolator.ResetTo(m_LocalAuthoritativeNetworkState.PositionY, serverTime);
             m_PositionZInterpolator.ResetTo(m_LocalAuthoritativeNetworkState.PositionZ, serverTime);
 
